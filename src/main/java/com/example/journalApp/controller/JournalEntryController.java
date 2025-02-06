@@ -1,10 +1,7 @@
 package com.example.journalApp.controller;
 
 import com.example.journalApp.entity.JournalEntry;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Array;
 import java.util.ArrayList;
@@ -24,8 +21,25 @@ public class JournalEntryController {
     }
 
     @PostMapping
-    public void createEntry(){
+    public boolean createEntry(@RequestBody JournalEntry myEntry){
+            journalEntries.put(myEntry.getId(), myEntry);
+            return true;
+    }
+//  To get the entry by ID
+    @GetMapping("id/{myId}")
+    public JournalEntry journalEntryById(@PathVariable Long myId){
+        return journalEntries.get(myId);
+    }
 
+//    To Delete the Entry by Id
+    @DeleteMapping("id/{myId}")
+    public JournalEntry deleteJournalEntryById(@PathVariable Long myId){
+        return journalEntries.remove(myId);
+    }
+//    TO Update the Entry by Id
+    @PutMapping("id/{id}")
+    public JournalEntry updateJournalEntryById(@PathVariable Long id, @RequestBody JournalEntry myEntry){
+        return journalEntries.put(id,myEntry);
     }
 
 }
